@@ -1,6 +1,8 @@
+import React from 'react';
+import Foto from "./Oliver_EnElCampo.jpg";
 function Home() {
     return (
-        <div>Conoce nuevas personas</div>
+        <img src={Foto} alt="Image"></img>
     )
 }
 export default Home;
