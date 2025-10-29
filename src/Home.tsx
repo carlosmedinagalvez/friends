@@ -1,4 +1,3 @@
-import React from 'react';
 import Foto from "./Oliver_EnElCampo.jpg";
 function Home() {
     return (

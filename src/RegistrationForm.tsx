@@ -9,8 +9,8 @@ function RegistrationForm(){
     }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Nombre: ',nombre);
-        console.log('ciudad: ',ciudad);
+        console.log('Nombre: ',form.nombre);
+        console.log('ciudad: ',form.ciudad);
     }
   return (
       <form onSubmit={handleSubmit}>
