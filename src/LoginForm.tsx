@@ -24,7 +24,9 @@ function LoginForm() {
         <form onSubmit={handleSubmit(onSubmit)}>
             <input {...register('email')} placeholder="Email" />
             <FieldError message={errors.email?.message} />
-
+            <input {...register('password')} type="password" placeholder="Password"/>
+            <FieldError message={errors.password?.message} />
+            <button type="submit" >Login</button>
         </form>
     )
 }
