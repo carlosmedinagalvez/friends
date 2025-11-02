@@ -1,6 +1,8 @@
 import {useState} from 'react';
 import TextInput from './TextInput';
 
+//CREATING FORM COMPONENTS page 107
+//page 110 based on function RegisterForm
 function RegistrationForm(){
     const [form, setForm] = useState({ nombre:'', ciudad:'' });
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
