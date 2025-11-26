@@ -8,7 +8,7 @@ function Home() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await fetch('https://image.tmdb.org/t/p/w500/1E5baAaEse26fej7uHcjOgEE2t2.jpg', { method: 'GET' });
+                const response = await fetch('https://media.themoviedb.org/t/p/w300_and_h450_bestv2/qShQABLVRMZKnv5mWOPXWniBeB3.jpg', { method: 'GET' });
                 if (!response.ok) {
                     setError('error');
                     throw new Error(`HTTP error! status: ${response.status}`);
