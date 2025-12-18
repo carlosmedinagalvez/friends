@@ -39,43 +39,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.client = void 0;
 exports.generatePresignedPost = generatePresignedPost;
 var client_s3_1 = require("@aws-sdk/client-s3");
-var s3_presigned_post_1 = require("@aws-sdk/s3-presigned-post");
+//import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
+var s3_request_presigner_1 = require("@aws-sdk/s3-request-presigner");
 // Initialize S3 Client
 exports.client = new client_s3_1.S3Client({
     region: "us-east-1", // Replace with your desired AWS region
     // You might need to configure credentials here if not using environment variables or IAM roles
 });
-function generatePresignedPost() {
-    return __awaiter(this, void 0, void 0, function () {
-        var bucketName, objectKey, expirationInSeconds, _a, url, fields, error_1;
-        return __generator(this, function (_b) {
-            switch (_b.label) {
+function generatePresignedPost(bucketName_1, objectKey_1) {
+    return __awaiter(this, arguments, void 0, function (bucketName, objectKey, expiresInSeconds) {
+        var command, url, error_1;
+        if (expiresInSeconds === void 0) { expiresInSeconds = 3600; }
+        return __generator(this, function (_a) {
+            switch (_a.label) {
                 case 0:
-                    bucketName = "friendsfiles";
-                    objectKey = "Oliver.jpg";
-                    expirationInSeconds = 60;
-                    _b.label = 1;
+                    command = new client_s3_1.PutObjectCommand({
+                        Bucket: bucketName,
+                        Key: objectKey,
+                    });
+                    _a.label = 1;
                 case 1:
-                    _b.trys.push([1, 3, , 4]);
-                    return [4 /*yield*/, (0, s3_presigned_post_1.createPresignedPost)(exports.client, {
-                            Bucket: bucketName,
-                            Key: objectKey,
-                            Conditions: [
-                                // Optional: Add conditions for the upload
-                                { bucket: bucketName }, // Ensure the upload is to the specified bucket
-                                ["starts-with", "$key", "uploads/"], // Ensure the key starts with 'uploads/'
-                                ["content-length-range", 0, 10485760], // Max file size of 10MB
-                                // You can add more conditions like 'acl', 'content-type', 'success_action_redirect', etc.
-                            ],
-                            Expires: expirationInSeconds,
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, (0, s3_request_presigner_1.getSignedUrl)(exports.client, command, {
+                            expiresIn: expiresInSeconds,
                         })];
                 case 2:
-                    _a = _b.sent(), url = _a.url, fields = _a.fields;
-                    console.log("Presigned POST URL:", url);
-                    console.log("Form Fields:", fields);
-                    return [3 /*break*/, 4];
+                    url = _a.sent();
+                    console.log("Presigned URL:", url);
+                    return [2 /*return*/, url];
                 case 3:
-                    error_1 = _b.sent();
+                    error_1 = _a.sent();
                     console.error("Error generating presigned POST:", error_1);
                     return [3 /*break*/, 4];
                 case 4: return [2 /*return*/];
@@ -83,6 +76,6 @@ function generatePresignedPost() {
         });
     });
 }
-generatePresignedPost();
-exports.default = generatePresignedPost;
+//generatePresignedPost();
+//export default generatePresignedPost;
 //module.exports = getpresignedurl

@@ -39,7 +39,7 @@ async function generatePresignedPost() {
       Expires: expirationInSeconds,
     });
 
-    console.log("Presigned POST URL:", url);
+    console.log("Presigned post URL:", url);
     console.log("Form Fields:", fields);
 
     // You would then send 'url' and 'fields' to your client-side application

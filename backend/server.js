@@ -26,8 +26,8 @@ async function generatePresignedPost() {
       Expires: expirationInSeconds,
     });
 
-    console.log("Presigned POST URL:", url);
-    console.log("Form Fields:", fields);
+    //console.log("Presigned POST URL:", url);
+    //console.log("Form Fields:", fields);
 
     // You would then send 'url' and 'fields' to your client-side application
     // to construct an HTML form and perform the upload.

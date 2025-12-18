@@ -35,8 +35,8 @@ function UploadImages() {
         const REGION = "us-east-1"; // Replace with your region
 
         AWS.config.update({
-            accessKeyId: "xx",
-            secretAccessKey: "xx",
+            accessKeyId: "",
+            AccessKey: "",
         });
 
         const s3 = new S3({

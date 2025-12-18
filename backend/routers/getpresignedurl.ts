@@ -1,5 +1,6 @@
-import { S3Client } from "@aws-sdk/client-s3";
-import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
+import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+//import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
+import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 
 // Initialize S3 Client
 export const client = new S3Client({
@@ -7,32 +8,28 @@ export const client = new S3Client({
   // You might need to configure credentials here if not using environment variables or IAM roles
 });
 
-export async function generatePresignedPost() {
-  const bucketName = "friendsfiles"; // Replace with your S3 bucket name
-  const objectKey = "Oliver.jpg"; // The key (path) of the object in S3
-  const expirationInSeconds = 60; // 1 hour 3600
+export async function generatePresignedPost(bucketName, objectKey, expiresInSeconds = 3600) {
 
-  try {
-    const { url, fields } = await createPresignedPost(client, {
-      Bucket: bucketName,
-      Key: objectKey,
-      Conditions: [
-        // Optional: Add conditions for the upload
-        { bucket: bucketName }, // Ensure the upload is to the specified bucket
-        ["starts-with", "$key", "uploads/"], // Ensure the key starts with 'uploads/'
-        ["content-length-range", 0, 10485760], // Max file size of 10MB
-        // You can add more conditions like 'acl', 'content-type', 'success_action_redirect', etc.
-      ],
-      Expires: expirationInSeconds,
+    const command = new GetObjectCommand({
+        Bucket: bucketName,
+        Key: objectKey,
+        Fields: {
+          'content-type': 'text/plain', // this field must be present in the client request
+        },
     });
 
-    console.log("Presigned POST URL:", url);
-    console.log("Form Fields:", fields);
+  try {
+    const url = await getSignedUrl(client, command, {
+        expiresIn: expiresInSeconds, 
+    });
+
+    //console.log("Presigned URL:", url);
+    return url;
 
   } catch (error) {
     console.error("Error generating presigned POST:", error);
   }
 }
 //generatePresignedPost();
-export default generatePresignedPost;
+//export default generatePresignedPost;
 //module.exports = getpresignedurl

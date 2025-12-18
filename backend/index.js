@@ -20,6 +20,7 @@ const corsOptions = {
 
 app.use(cors(corsOptions))
 app.use('/',router)
+app.use(express.json())
 
 const port=4000
 const server = app.listen(port, () => {

@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import AWS from 'aws-sdk'; // Import the AWS SDK
+import { readFile } from "node:fs/promises";
+import axios from 'axios';
 
 export const S3_BUCKET = 'friendsfiles'; // Replace with your S3 bucket name
 export const REGION = 'us-east-1'; // Replace with your AWS region
 
 // Configure AWS SDK
 AWS.config.update({
-    accessKeyId: 'xxx', // Replace with your AWS Access Key ID
-    secretAccessKey: 'xx', // Replace with your AWS Secret Access Key
+    accessKeyId: '', // Replace with your AWS Access Key ID
+    AccessKey: '', // Replace with your AWS Secret Access Key
 });
 
 const s3 = new AWS.S3({
@@ -20,12 +22,22 @@ function ImageUpload() {
     const [uploading, setUploading] = useState(false);
     const [uploadSuccess, setUploadSuccess] = useState(false);
     const [error, setError] = useState<string>();
+    const [signedUrl, setSignedUrl] = useState<string>();
 
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSelectedFile(event.target);
+        setSelectedFile(event.target.value);
         setUploadSuccess(false);
         setError('');
     };
+
+    useEffect(() => {
+        axios.get('http://localhost:4000/users')
+            .then((res) => setSignedUrl(res.data))
+            .catch((err) => {
+                setError(err.message);
+            })
+            .finally(() => setUploading(false));
+    }, []);
 
     const handleUpload = async () => {
         if (!selectedFile) {
@@ -40,7 +52,8 @@ function ImageUpload() {
         const params = {
             Bucket: S3_BUCKET,
             Key: selectedFile.value, // The name of the file in S3
-            Body: selectedFile.value, // The file itself
+            //Body: selectedFile.value, // The file itself
+            Body: await readFile(selectedFile.value), 
             ContentType: 'image/jpg',//selectedFile.type, // The content type of the file
         };
 
