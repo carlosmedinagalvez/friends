@@ -1,4 +1,4 @@
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 //import { createPresignedPost } from '@aws-sdk/s3-presigned-post'
 import {getSignedUrl} from "@aws-sdk/s3-request-presigner";
 
@@ -8,19 +8,17 @@ export const client = new S3Client({
   // You might need to configure credentials here if not using environment variables or IAM roles
 });
 
-export async function generatePresignedPost(bucketName, objectKey, expiresInSeconds = 3600) {
-
-    const command = new GetObjectCommand({
-        Bucket: bucketName,
-        Key: objectKey,
-        Fields: {
-          'content-type': 'text/plain', // this field must be present in the client request
-        },
+export async function generatePresignedPost(fileName, fileType) {
+    console.log(`file type: ${fileType}`);
+    const command = new PutObjectCommand({
+        Bucket: 'friendsfiles',
+        Key: fileName,
+        ContentType: fileType,
     });
 
-  try {
-    const url = await getSignedUrl(client, command, {
-        expiresIn: expiresInSeconds, 
+    try {
+        const url = await getSignedUrl(client, command, {
+            expiresIn: 180, 
     });
 
     //console.log("Presigned URL:", url);

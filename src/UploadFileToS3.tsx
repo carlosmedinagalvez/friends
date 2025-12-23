@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import AWS from 'aws-sdk'; // Import the AWS SDK
-import { readFile } from "node:fs/promises";
+//import { readFile } from "node:fs/promises";
 import axios from 'axios';
 
 export const S3_BUCKET = 'friendsfiles'; // Replace with your S3 bucket name

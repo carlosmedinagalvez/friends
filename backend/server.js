@@ -9,7 +9,7 @@ const client = new S3Client({
 
 async function generatePresignedPost() {
   const bucketName = "friendsfiles"; // Replace with your S3 bucket name
-  const objectKey = "Oliver.jpg"; // The key (path) of the object in S3
+  const objectKey = "Obb.jpg"; // The key (path) of the object in S3
   const expirationInSeconds = 60; // 1 hour 3600
 
   try {

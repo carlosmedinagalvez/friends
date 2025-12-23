@@ -1,22 +1,22 @@
 import express from 'express'
-import { S3Client, GetObjectCommand } from '@aws-sdk/client-s3';
+import { S3Client, PutObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 const router = express.Router()
 
-router.get('/users', async (req, res, next) => {
+router.post('/users', async (req, res, next) => {
 
     const client = new S3Client({
         region: "us-east-1",
+        signatureVersion: "v4",
         // You might need to configure credentials here if not using environment variables or IAM roles
     });
     const expiresInSeconds = 360;
-
-    const command = new GetObjectCommand({
+    const { fileName, fileType } = req.body;
+    console.log(`file NAME: ${fileName}`);
+    const command = new PutObjectCommand({
         Bucket: 'friendsfiles',
-        Key: 'Oliver.jpg',
-        Fields: {
-            'content-type': 'text/plain',
-        },
+        Key: fileName, //'Oliver.jpg',
+        ContentType: "image/jpeg",
     });
 
     try {
