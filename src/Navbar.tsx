@@ -3,8 +3,8 @@ import Members from './Members';
 import Home from './Home';
 import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
-import UploadFileToS3 from './UploadFileToS3';
-import UploadImageToS3 from './UploadImageToS3';
+//import UploadImageToSss from './UploadImageToSss';
+import UpF from './UpF';
 
 function Navbar() {
     return (
@@ -18,14 +18,14 @@ function Navbar() {
                 {'|'}
                 <Link to="/newmember">New Member</Link>
                 {'|'}
-                <Link to="/uploadImageToS3">Image upload</Link>
+                <Link to="/upf">Image upload</Link>
             </nav>
             <Routes>
                 <Route path="/login" element={<LoginForm />} />
                 <Route path="/" element={<Home />} />
                 <Route path="/members" element={<Members />} />
                 <Route path="/newmember" element={<RegistrationForm />} />
-                <Route path="/uploadImageToS3" element={<UploadImageToS3 />} />
+                <Route path="/upf" element={<UpF />} />
             </Routes>
         </BrowserRouter>
     )

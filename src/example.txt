@@ -1,0 +1,71 @@
+import React, { useState, useEffect } from 'react';
+
+export const S3Uploader = () => {
+  const [file, setFile] = useState<File | null>(null);
+  const [isUploading, setIsUploading] = useState<boolean>(false);
+  const [status, setStatus] = useState<string>('');
+
+  useEffect(() => {
+    // Prevent upload if no file is selected
+    if (!file) return;
+
+    const uploadFile = async () => {
+      setIsUploading(true);
+      setStatus('Fetching secure upload URL...');
+
+      try {
+        // 1. Request a Pre-Signed URL from your backend API
+        const response = await fetch('/api/get-presigned-url', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            fileName: file.name,
+            contentType: file.type,
+          }),
+        });
+
+        if (!response.ok) throw new Error('Failed to get presigned URL');
+
+        const { uploadUrl, fileUrl } = await response.json();
+        setStatus('Uploading file directly to S3...');
+
+        // 2. Upload the file to S3 using the received URL
+        const uploadResponse = await fetch(uploadUrl, {
+          method: 'PUT',
+          headers: { 'Content-Type': file.type },
+          body: file,
+        });
+
+        if (!uploadResponse.ok) throw new Error('S3 upload failed');
+
+        setStatus('Upload successful!');
+        console.log('File available at:', fileUrl);
+      } catch (error) {
+        console.error('Error uploading file:', error);
+        setStatus('Upload failed. Please try again.');
+      } finally {
+        setIsUploading(false);
+      }
+    };
+
+    uploadFile();
+  }, [file]); // Triggers automatically whenever a file is selected
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      setFile(e.target.files[0]);
+    }
+  };
+
+  return (
+    <div style={{ padding: '20px', fontFamily: 'sans-serif' }}>
+      <h3>AWS S3 Direct File Uploader</h3>
+      <input 
+        type="file" 
+        onChange={handleFileChange} 
+        disabled={isUploading} 
+      />
+      <p>{status}</p>
+    </div>
+  );
+};
