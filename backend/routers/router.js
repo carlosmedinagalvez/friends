@@ -22,8 +22,8 @@ router.get('/users', async (req, res, next) => {
         Bucket: 'friendsfiles',
         Key: filename, //'Oliver.jpg',
         ContentType: "image/jpeg",
-        //AccessKeyId: "",
-        //SecretAccessKey: "",
+        AccessKeyId: "",
+        SecretAccessKey: "",
     });
 
     try {
