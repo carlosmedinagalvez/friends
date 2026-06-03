@@ -26,24 +26,6 @@ async function generatePresignedPost() {
       Expires: expirationInSeconds,
     });
 
-    //console.log("Presigned POST URL:", url);
-    //console.log("Form Fields:", fields);
-
-    // You would then send 'url' and 'fields' to your client-side application
-    // to construct an HTML form and perform the upload.
-    // Example client-side HTML form structure:
-    /*
-    <form action="${url}" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="key" value="${fields.key}" />
-      <input type="hidden" name="AWSAccessKeyId" value="${fields.AWSAccessKeyId}" />
-      <input type="hidden" name="policy" value="${fields.policy}" />
-      <input type="hidden" name="signature" value="${fields.signature}" />
-      <!-- Add other hidden fields from 'fields' object as needed -->
-      <input type="file" name="file" />
-      <button type="submit">Upload</button>
-    </form>
-    */
-
   } catch (error) {
     console.error("Error generating presigned POST:", error);
   }

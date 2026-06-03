@@ -36,13 +36,6 @@ function UpF() {
             console.log(e.target.files[0]);
         }
     };
-    /*const client = new S3Client({
-        region: "us-east-1",
-        credentials: {
-            accessKeyId: "",
-            secretAccessKey: "",
-        },
-    });*/
 
     useEffect(() => {
         const uploadFile = async () => {
@@ -61,8 +54,8 @@ function UpF() {
 
             try {
 
-                const response = await axios.get('http://localhost:4000/users')
-                //const response = await axios.get('/api/users')
+                //const response = await axios.get('https://localhost:4000/users')
+                const response = await axios.get('/api/users')
                 //setData(response.data);
                 console.log(response.data);
 
@@ -71,24 +64,8 @@ function UpF() {
                 const { url } = await response.data;
                 console.log(url);
 
-                // Step 2
-                /*const uploadResponse = await fetch(url, { //forbidden 
-                    method: 'PUT',
-                    headers: { 'Content-Type': file.type },
-                    body: file,
-                });
-                console.log(uploadResponse);*/
-                /*const uploadResponse = await axios.put(url,file,{ // 403 forbidden
-                    method: 'PUT',
-                    headers: { 'Content-Type': file.type }
-                });
-                if (!uploadResponse.ok) throw new Error('Failed to upload file to S3')*/
-
                 try {
-                    //await s3.putObject(params);  // NO DA ERROR
-                    await s3.putObject(params).promise();  // CredentialsError: missing credentials
-                    // const response = await client.send(command); //TypeError: readableStream.getReader is not a function
-                    //console.log(response);
+                    await s3.putObject(params).promise(); 
                 } catch (err) {
                     console.error('Error uploading file:', err);
                     setError('Error uploading file. Please try again.');

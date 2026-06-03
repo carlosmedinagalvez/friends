@@ -1,16 +1,3 @@
-/*import { S3Client, GetObjectCommand } from "@aws-sdk/client-s3";
-import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-
-const s3Client = new S3Client({ region: "us-east-1" });
-
-async function getS3PresignedUrl(bucketName: string, key: string) {
-    const command = new GetObjectCommand({ Bucket: bucketName, Key: key });
-    const url = await getSignedUrl(s3Client, command, { expiresIn: 3600 }); // URL valid for 1 hour
-    return url;
-}
-console.log('hola mundo!');
-export default getS3PresignedUrl;*/
-
 import { S3Client } from "@aws-sdk/client-s3";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
 
@@ -41,21 +28,6 @@ async function generatePresignedPost() {
 
     console.log("Presigned post URL:", url);
     console.log("Form Fields:", fields);
-
-    // You would then send 'url' and 'fields' to your client-side application
-    // to construct an HTML form and perform the upload.
-    // Example client-side HTML form structure:
-    /*
-    <form action="${url}" method="POST" enctype="multipart/form-data">
-      <input type="hidden" name="key" value="${fields.key}" />
-      <input type="hidden" name="AWSAccessKeyId" value="${fields.AWSAccessKeyId}" />
-      <input type="hidden" name="policy" value="${fields.policy}" />
-      <input type="hidden" name="signature" value="${fields.signature}" />
-      <!-- Add other hidden fields from 'fields' object as needed -->
-      <input type="file" name="file" />
-      <button type="submit">Upload</button>
-    </form>
-    */
 
   } catch (error) {
     console.error("Error generating presigned POST:", error);

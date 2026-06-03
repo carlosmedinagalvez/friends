@@ -34,6 +34,3 @@ export async function generatePresignedPost(filename, filetype) {
     console.error("Error generating presigned POST:", error);
   }
 }
-//generatePresignedPost();
-//export default generatePresignedPost;
-//module.exports = getpresignedurl
