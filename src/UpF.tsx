@@ -49,6 +49,7 @@ function UpF() {
                 Body: file,
                 ContentType: 'image/jpeg',//selectedFile.type, // The content type of the file
             };
+            console.log(file.name);
             //const command = new PutObjectCommand(params);
 
 

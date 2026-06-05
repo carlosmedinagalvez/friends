@@ -1,5 +1,8 @@
 import { S3Client } from "@aws-sdk/client-s3";
 import { createPresignedPost } from "@aws-sdk/s3-presigned-post";
+import dotdev from 'dotdev';
+
+dotdev.configure();
 
 // Initialize S3 Client
 const client = new S3Client({
@@ -28,6 +31,7 @@ async function generatePresignedPost() {
 
     console.log("Presigned post URL:", url);
     console.log("Form Fields:", fields);
+    console.log(process.env.AWS_REGION);
 
   } catch (error) {
     console.error("Error generating presigned POST:", error);

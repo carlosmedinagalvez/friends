@@ -5,6 +5,7 @@ import RegistrationForm from './RegistrationForm';
 import LoginForm from './LoginForm';
 //import UploadImageToSss from './UploadImageToSss';
 import UpF from './UpF';
+import DwnF from './DwnF';
 
 function Navbar() {
     return (
@@ -19,6 +20,8 @@ function Navbar() {
                 <Link to="/newmember">New Member</Link>
                 {'|'}
                 <Link to="/upf">Image upload</Link>
+                {'|'}
+                <Link to="/DwnF">Photos</Link>
             </nav>
             <Routes>
                 <Route path="/login" element={<LoginForm />} />
@@ -26,6 +29,7 @@ function Navbar() {
                 <Route path="/members" element={<Members />} />
                 <Route path="/newmember" element={<RegistrationForm />} />
                 <Route path="/upf" element={<UpF />} />
+                <Route path="/dwnF" element={<DwnF />} />
             </Routes>
         </BrowserRouter>
     )

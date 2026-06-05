@@ -1,17 +1,24 @@
 // vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import mkcert from 'vite-plugin-mkcert'
 
 export default defineConfig({
-    plugins: [react()],
     server: {
         proxy: {
             '/api': { // Any request starting with /api will be proxied
-                target: 'http://localhost:4000', // Your backend server's address
+                target: 'https://staging.d31xiqyxr7ory3.amplifyapp.com', // Your backend server's address
                 changeOrigin: true, // Changes the origin of the host header to the target URL
-                //rewrite: (path) => path.replace(/^\/api/, ''), // Optional: Remove /api prefix from the request path
+                rewrite: (path) => path.replace(/^\/api/, ''), // Optional: Remove /api prefix from the request path
             },
         },
+    },
+    plugins: [react(), mkcert()],
+    base: './index.html',
+    resolve: {
+        alias: {
+            './runtimeConfig': './runtimeConfig.browser',
+        }
     },
     define: {
         global: {},
